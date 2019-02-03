@@ -1,4 +1,4 @@
-# Getting started
+# My install guide for arch.
 
 ## Getting started
 Changing keymap to swedish
@@ -41,3 +41,51 @@ Mount them all
 >mkdir /mnt/boot  
 >mount /dev/sda1 /mnt/boot  
 >swapon /dev/mapper/vol-swap  
+
+## Bootstrap the system, generate fstab and then chroot into it
+Install the choosen packagesgroups. More can be added i.e gnome.
+>pacstrap /mnt base base-devel
+
+Generate /etc/fstab
+>genfstab -U /mnt >> /mnt/etc/fstab
+
+Chroot in to the system
+>arch-chroot /mnt
+
+Now that we are in our new environment. Lets install some extra packages
+>pacman -S zsh networkmanager intel-ucode
+
+## Set up some basic things
+Setup timezone
+> ln -sf /usr/share/zoneinfo/Europe/Stockholm /etc/localtime
+
+Edit locale.gen and then generate locales
+> nano /etc/locale.gen  
+> locale-gen
+
+Set hostname
+> echo  myfunnycomputername > /etc/hostname
+
+## Set up userstuff
+Create a useraccount
+> useradd -m -G wheel -s /bin/zsh myhaxxorusername
+
+Set a password
+> passwd samehaxxorusername
+
+Configure sudo by opening the configration file and uncommenting the wheel-option
+> visudo
+
+
+
+
+
+
+
+
+
+
+
+
+
+
