@@ -76,14 +76,37 @@ Set a password
 Configure sudo by opening the configration file and uncommenting the wheel-option
 > visudo
 
+And lastly, disable the root-user
+> passwwd -l root
 
+## Generate a ramdisk
 
+> vi /etc/mkinitcpio.conf
 
+And make sure it contains the following
+>MODULES="i915 dm_mod dm_crypt ext4 aes_x86_64 sha256 sha512"  
+>BINARIES=()  
+>FILES=""  
+>HOOKS="base systemd block autodetect modconf keyboard sd-vconsole sd-encrypt sd-lvm2 filesystems"  
 
+Then generate it
+> mkinitcpio -p linux
 
+## Install bootloader
+Install systemd-boot by running:
+> bootctl --path=/boot install
 
+And create a new file for the bootloader to use.
+> vi /boot/loader/entries/arch.conf
 
+And make sure it contains this with need adjustments
+>title	Arch  
+>linux	/vmlinuz-linux  
+>initrd	/intel-ucode.img  
+>initrd	/initramfs-linux.img  
+>options rd.luks.uuid=79ae5257-f0bb-4c3e-87de-680ed66af182 rd.lvm.lv=arch/root rd.lvm.lv=arch/swap rd.luks.options=discard root=UUID=363f799d-b080-425e-b0f8-d9011082db48 ro quiet loglevel=3 vt.global_cursor_default=0 rd.systemd.show_status=0 rd.udev.log-priority=3 i915.fastboot=1  
 
+d
 
 
 
