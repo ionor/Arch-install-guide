@@ -104,7 +104,7 @@ And make sure it contains this with need adjustments. The first rd.luks.uuid sho
 >linux	/vmlinuz-linux  
 >initrd	/intel-ucode.img  
 >initrd	/initramfs-linux.img  
->options rd.luks.uuid=79ae5257-f0bb-4c3e-87de-680ed66af182 rd.lvm.lv=arch/root rd.lvm.lv=arch/swap rd.luks.options=discard root=UUID=363f799d-b080-425e-b0f8-d9011082db48 ro quiet loglevel=3 vt.global_cursor_default=0 rd.systemd.show_status=0 rd.udev.log-priority=3 i915.fastboot=1  
+>options rd.luks.uuid=[uuid for /dev/sda1] rd.lvm.lv=arch/root rd.lvm.lv=arch/swap rd.luks.options=discard root=UUID=[uuid for encrypted root] ro quiet loglevel=3 vt.global_cursor_default=0 rd.systemd.show_status=0 rd.udev.log-priority=3 i915.fastboot=1  
 
 ## Reboot
 Just reboot!
