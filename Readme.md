@@ -117,9 +117,9 @@ Install git
 > pacman -S git
 
 Install yay
-> git clone https://aur.archlinux.org/yay.git
-> cd yay
-> makepkg -si
+> git clone https://aur.archlinux.org/yay.git  
+> cd yay  
+> makepkg -si  
 
 Install some extra packages
 > yay -S powertop ttf-dejavu neovim
