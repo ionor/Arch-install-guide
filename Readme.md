@@ -11,7 +11,7 @@ Connect to wifi
 Create one 500MB EFI-partition (+500M) and allocate the rest for the root-partition.
 > fdisk /dev/sda
 
-Change type of the first partition to 1 (LVM) and the second one to 31 (LVM).
+Change type of the first partition to 1 (EFI) and the second one to 31 (LVM).
 
 Format /dev/sda1 to vfat.
 > mkfs.vfat -F32 /dev/sda1
@@ -31,7 +31,7 @@ Then setup the partitions inside.
 >lvcreate -l +100%FREE vol --name root  
 
 And format them
->mkfs.e2fs /dev/mapper/vol-root
+>mkfs.e2fs /dev/mapper/vol-root  
 >mkswap /dev/mapper/vol-swap
 
 ## Mount partitions
@@ -96,6 +96,18 @@ Then generate it
 Install systemd-boot by running:
 > bootctl --path=/boot install
 
+Time to identify all the necessary uuid:s
+> lsblk -o name,uuid  
+NAME                                          UUID  
+sda                                             
+├─sda1                                        85FD-5ABB  
+└─sda2                                        8cbdf380-fd94-4972-b19c-b25a7d14245a <-- for rd.luks.uuid  
+  └─luks-8cbdf380-fd94-4972-b19c-b25a7d14245a l82dSB-TMw0-81MM-DLVW-85Xg-UZIX-M2fgq6  
+    ├─vol-swap                                aee08b20-885f-4c38-9bfa-eb2f4ee19887  
+    └─vol-root                                8f5c623f-f043-41c3-8b68-29e47c563c67 <-- for root=UUID  
+  
+
+
 And create a new file for the bootloader to use.
 > vi /boot/loader/entries/arch.conf
 
@@ -104,7 +116,9 @@ And make sure it contains this with need adjustments. The first rd.luks.uuid sho
 >linux	/vmlinuz-linux  
 >initrd	/intel-ucode.img  
 >initrd	/initramfs-linux.img  
->options rd.luks.uuid=[uuid for /dev/sda1] rd.lvm.lv=arch/root rd.lvm.lv=arch/swap rd.luks.options=discard root=UUID=[uuid for encrypted root] ro quiet loglevel=3 vt.global_cursor_default=0 rd.systemd.show_status=0 rd.udev.log-priority=3 i915.fastboot=1  
+>options rd.luks.uuid=[uuid for /dev/sda2] rd.lvm.lv=arch/root rd.lvm.lv=arch/swap rd.luks.options=discard root=UUID=[uuid for encrypted root] ro quiet loglevel=3 vt.global_cursor_default=0 rd.systemd.show_status=0 rd.udev.log-priority=3 i915.fastboot=1  
+
+
 
 ## Reboot
 Just reboot!
