@@ -1,11 +1,15 @@
 # My install guide for arch.
 
 ## Getting started
-Changing keymap to swedish
-> loadkeys sv-latin1
+Changing keymap to swedish  
+```  
+loadkeys sv-latin1   
+```   
 
 Connect to wifi
-> wifi-menu
+```
+wifi-menu
+```
 
 ## Partitioning
 Create one 500MB EFI-partition (+500M) and allocate the rest for the root-partition.
