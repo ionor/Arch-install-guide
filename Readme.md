@@ -44,7 +44,7 @@ lvcreate -l +100%FREE vol --name root
 ```
 And format them
 ```
-mkfs.e2fs /dev/mapper/vol-root  
+mkfs.f2fs /dev/mapper/vol-root  
 mkswap /dev/mapper/vol-swap
 ```
 
