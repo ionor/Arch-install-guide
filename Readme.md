@@ -80,9 +80,11 @@ pacman -S zsh networkmanager intel-ucode
 ```
 
 ## Set up some basic things
-Setup timezone
+Setup timezone and enable NTP
 ```
+timedatectl set-timezone Europe/Stockholm
 ln -sf /usr/share/zoneinfo/Europe/Stockholm /etc/localtime
+timedatectl set-ntp True
 ```
 
 Edit locale.gen and then generate locales
